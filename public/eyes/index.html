@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8" />
+    <style>
+      html,
+      body {
+        cursor: none;
+        background: black;
+      }
+
+      video {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 100vw;
+        cursor: none;
+        object-fit: cover;
+      }
+    </style>
+  </head>
+
+  <body>
+    <video id="video" src="" autoplay loop></video>
+    <script>
+      async function init() {
+        const robotType = await getRobotType();
+        detectCharging(robotType);
+      }
+
+      async function getRobotType() {
+        try {
+          const response = await fetch("/api/init", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              body: JSON.stringify({})
+            }
+          });
+          const result = await response.json();
+          return result.robot.type;
+        } catch (error) {
+          console.error(error);
+        }
+      }
+
+      async function detectCharging(robotType) {
+        setInterval(async () => {
+          try {
+            const response = await fetch("/api/status");
+            const result = await response.json();
+            if (result.charging) {
+              if (!document.querySelector("#video").src.endsWith("sleep.mp4")) {
+                document.querySelector("#video").src = "sleep.mp4";
+              }
+            } else if (robotType === "jasmine") {
+              if (!document.querySelector("#video").src.endsWith("jasmine.mp4")) {
+                document.querySelector("#video").src = "jasmine.mp4";
+              }
+            } else {
+              if (!document.querySelector("#video").src.endsWith("rice.mp4")) {
+                document.querySelector("#video").src = "rice.mp4";
+                document.querySelector("#video").volume = 0.1;
+              }
+            }
+          } catch (error) {
+            console.error(error);
+          }
+        }, 1000);
+      }
+
+      init();
+    </script>
+  </body>
+
+</html>
