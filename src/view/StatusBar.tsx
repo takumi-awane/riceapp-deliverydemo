@@ -1,6 +1,6 @@
 import { Stack, Typography } from "@mui/material";
 import { ReactElement, useState } from "react";
-import { PestControl, Construction, Inventory, Close, Settings, Animation } from '@mui/icons-material';
+import { PestControl, Construction, Inventory, Close, Settings, Animation, BatteryChargingFull } from '@mui/icons-material';
 
 import { Palette } from "../style.ts";
 import { Battery } from "../components/Battery.tsx";
@@ -35,28 +35,35 @@ export function StatusBar({ theme = "dark", central, disableExpansion = false }:
         {
             key: "Settings",
             isAvailable: true,
-            icon: (<Settings style={{ fontSize: 40 }} />),
+            icon: (<Settings style={{ fontSize: 25 }} />),
             color: Palette.pink,
             onClick: () => { window.location.href = import.meta.env.VITE_SPLASH_SCREEN_URL!; }
         },
         {
             key: `${state.context.status.lid === "close" || state.context.status.lid === "closing" ? "Open" : "Close"} Lid`,
             isAvailable: state.context.debugMode || state.context.devMode,
-            icon: (<Inventory style={{ fontSize: 40 }} />),
+            icon: (<Inventory style={{ fontSize: 25 }} />),
             color: Palette.orange,
             onClick: () => send("lidFire")
         },
         {
             key: `${state.context.status.eBrake === "freewheel" ? "Engage" : "Release"} eBrake`,
             isAvailable: state.context.debugMode || state.context.devMode,
-            icon: (<Animation style={{ fontSize: 40 }} />),
+            icon: (<Animation style={{ fontSize: 25 }} />),
             color: Palette.yellow,
             onClick: () => send("eBrakeFire")
         },
         {
+            key: "Parking",
+            isAvailable: true,
+            icon: (<BatteryChargingFull style={{ fontSize: 25 }} />),
+            color: Palette.green,
+            onClick: () => send("parkFire")
+        },
+        {
             key: "Close",
             isAvailable: true,
-            icon: (<Close style={{ fontSize: 40 }} />),
+            icon: (<Close style={{ fontSize: 25 }} />),
             color: Palette.blue,
             onClick: () => setShowMoreStatus(false)
         },
@@ -72,11 +79,11 @@ export function StatusBar({ theme = "dark", central, disableExpansion = false }:
                             {displayAction.map(x => x.isAvailable ? (
                                 <tr key={x.key}>
                                     <td style={cellStyle}>
-                                        <div style={{ height: 10 }} />
+                                        <div style={{ height: 5 }} />
                                         <Button style={{ width: "fit-content", margin: "auto" }} onClick={x.onClick} color={x.color}>{x.icon}</Button>
-                                        <div style={{ height: 10 }} />
+                                        <div style={{ height: 5 }} />
                                         <Typography variant="button" fontSize={15} color={Palette.darkGrey}>{x.key}</Typography>
-                                        <div style={{ height: 10 }} />
+                                        <div style={{ height: 5 }} />
                                     </td>
                                 </tr>
                             ) : null)}

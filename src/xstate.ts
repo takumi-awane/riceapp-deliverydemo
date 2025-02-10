@@ -209,6 +209,7 @@ export const StateModel = createModel(initCtx, {
         wake: () => ({}),
         lidFire: () => ({}),
         eBrakeFire: () => ({}),
+        parkFire: () => ({}),
 
         //integration test events
         beginTest: (tests: Set<number>, pathId: string) => ({ tests, pathId }),
@@ -610,7 +611,8 @@ export const StateMachine = StateModel.createMachine({
         ],
         // Only for debug
         lidFire: { actions: (ctx, e) => RiceAppAPI.post("/api/lid", { lid: ctx.status.lid === "close" || ctx.status.lid === "closing" ? "open" : "close" }) },
-        eBrakeFire: { actions: (ctx, e) => RiceAppAPI.post("/api/ebrake", { brake: ctx.status.eBrake === "freewheel" ? "release" : "freewheel" }) }
+        eBrakeFire: { actions: (ctx, e) => RiceAppAPI.post("/api/ebrake", { brake: ctx.status.eBrake === "freewheel" ? "release" : "freewheel" }) },
+        parkFire: 'charging',
     },
     states: {
         init: {
