@@ -30,13 +30,7 @@ export const Idle = {
 
         return (
             <>
-                <StatusBar
-                    central={
-                        <>
-                            <Timer seconds={timeRemaining} />
-                        </>
-                    }
-                />
+                <StatusBar />
                 <div style={{ height: 30 }} />
                 <SmartToy style={{ fontSize: 160, color: Palette.blue }} />
                 <div style={{ height: 20 }} />
