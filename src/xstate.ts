@@ -797,7 +797,7 @@ export const StateMachine = StateModel.createMachine({
         idle: {
             initial: "missionCheck",
             invoke: [
-                { src: "timeoutTimer", data: (ctx) => ({ timeout: ctx.info.params.idleTimeoutStandby }) },
+                //{ src: "timeoutTimer", data: (ctx) => ({ timeout: ctx.info.params.idleTimeoutStandby }) },
                 { src: "disinfectionScheduler" }
             ],
             on: {
