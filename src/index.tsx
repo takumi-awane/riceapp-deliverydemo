@@ -71,6 +71,10 @@ const transitionStateKeys = [
     "charging.enterPasscode",
     "fatalError",
     "movingNavi.navigate",
+    "movingNavi.waitForRecipient",
+    "movingNavi.enterPasscodeCollect",
+    "movingNavi.collectItems.itemCollection",
+
 ]
 
 const defaultPasscode = "2357";
@@ -128,6 +132,16 @@ function App() {
                                 <Caution title={t("delivery.placeItems.lidClose")}
                                     subtitle={t("delivery.placeItems.keepClear")} />
                             }
+                            {key === "delivery.waitForRecipient" && <WaitForRecipient />}
+                            {key === "delivery.enterPasscodeCollect" && (
+                                <LockScreen
+                                    instructions={t("delivery.enterPasscodeCollect")}
+                                    password={state.context.debugMode ? defaultPasscode : state.context.delivPassword}
+                                    onSuccess={() => send("passcodeEntered")}
+                                    onBack={() => send("back")}
+                                />
+                            )}
+                            {key === "delivery.collectItems.itemCollection" && <CollectItems />}
                             {key === "refill.refilling" && <Refill />}
                             {key === "openLid.refilling" && <CloseLid />}
                             {key === "getItem" && <GetItem.Delivery />}

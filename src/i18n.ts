@@ -211,7 +211,7 @@ i18n.use(initReactI18next).init({
                 },
                 delivery: {
                     enterPasscodeInit: "パスコードを入力\nしてください。",
-                    enterPasscodeCollect: "SMSで受信した\nパスコードを\n入力してください。",
+                    enterPasscodeCollect: "パスコード\n「 2357 」\nを入力してください。",
                     placeItems: {
                         lidOpen: "蓋を開いています。",
                         lidClose: "蓋を閉じています。",
