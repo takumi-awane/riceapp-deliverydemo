@@ -1,5 +1,9 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
+import { AppState, screenHeight, screenWidth, v4ScreenOffset } from "./xstate.ts";
+
+const [state, send] = AppState.useActor();
+var collectMessage = "パスコード\n『 " + state.context.delivPassword + " 』\nを入力してください";
 
 i18n.use(initReactI18next).init({
     lng: "ja",
@@ -148,7 +152,7 @@ i18n.use(initReactI18next).init({
         ja: {
             translation: {
                 init: "初期化中",
-                enterPasscode: "パスコード\n「 2357 」\nを入力してください。",
+                enterPasscode: "パスコード\n「 2357 」\nを入力してください",
                 confirmPosition: {
                     selectLoc: "現在の位置を選択してください。",
                     noHome: "マップ上にホームがありません。",
@@ -211,7 +215,7 @@ i18n.use(initReactI18next).init({
                 },
                 delivery: {
                     enterPasscodeInit: "パスコードを入力\nしてください。",
-                    enterPasscodeCollect: "パスコード\n「 2357 」\nを入力してください。",
+                    enterPasscodeCollect: collectMessage,
                     placeItems: {
                         lidOpen: "蓋を開いています。",
                         lidClose: "蓋を閉じています。",

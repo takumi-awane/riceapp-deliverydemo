@@ -136,7 +136,8 @@ function App() {
                             {key === "delivery.enterPasscodeCollect" && (
                                 <LockScreen
                                     instructions={t("delivery.enterPasscodeCollect")}
-                                    password={state.context.debugMode ? defaultPasscode : state.context.delivPassword}
+                                    //password={state.context.debugMode ? defaultPasscode : state.context.delivPassword}
+                                    password={state.context.debugMode ? state.context.delivPassword : state.context.delivPassword}
                                     onSuccess={() => send("passcodeEntered")}
                                     onBack={() => send("back")}
                                 />

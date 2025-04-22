@@ -990,7 +990,7 @@ export const StateMachine = StateModel.createMachine({
                     entry: raise((ctx, e) => ({ type: "sendMission", missionState: "code", meta: ctx.mission.meta, api: true })),
                     invoke: [
                         { src: "timeoutTimer", data: (ctx) => ({ timeout: ctx.info.params.idleTimeoutWaitReciepient }) },
-                        //{ src: "sendPasswordMessage", onDone: { actions: assign({ delivPassword: (_, e) => e.data }) } }
+                        { src: "sendPasswordMessage", onDone: { actions: assign({ delivPassword: (_, e) => e.data }) } }
                     ],
                     on: { recipientInteracted: "enterPasscodeCollect" },
                 },
@@ -1288,31 +1288,32 @@ export const StateMachine = StateModel.createMachine({
             }
         },
         async sendPasswordMessage(ctx) {
-            if (ctx.debugMode) return;
+            //if (ctx.debugMode) return;
             console.log("[api/message] not debug")
             const randomPassword = Math.floor(Math.random() * 9000 + 1000).toString(); // Generates 4 digit random password with range 1000-9999
-            const message = `Hi, I'm Rice. I've got items for you, please meet me at your door with this password: ${randomPassword}`;
-            for (let i = 0; i < 3; i++) try {
-                console.log("[api/message] send")
-                await RiceAppAPI.post("/api/message", {
-                    platform: "sms",
-                    phoneNumber: ctx.mission.meta.phoneNumber,
-                    senderId: "Rice Robotics",
-                    message
-                });
-                return randomPassword;
-            } catch (err) {
-                console.warn("[api] message", err);
-                try {
-                    RiceAppAPI.post("/api/alert/", {
-                        alarmType: "sms-failure",
-                        message: `Recipient: ${ctx.mission.meta.phoneNumber}; \nOriginal message: ${message}`
-                    });
-                } catch (err) {
-                    console.error(err);
-                }
-                await timeout(60 * 1000); // wait 1 minute before sending another sms
-            }
+            //const message = `Hi, I'm Rice. I've got items for you, please meet me at your door with this password: ${randomPassword}`;
+            return randomPassword;
+            // for (let i = 0; i < 3; i++) try {
+            //     console.log("[api/message] send")
+            //     await RiceAppAPI.post("/api/message", {
+            //         platform: "sms",
+            //         phoneNumber: ctx.mission.meta.phoneNumber,
+            //         senderId: "Rice Robotics",
+            //         message
+            //     });
+            //     return randomPassword;
+            // } catch (err) {
+            //     console.warn("[api] message", err);
+            //     try {
+            //         RiceAppAPI.post("/api/alert/", {
+            //             alarmType: "sms-failure",
+            //             message: `Recipient: ${ctx.mission.meta.phoneNumber}; \nOriginal message: ${message}`
+            //         });
+            //     } catch (err) {
+            //         console.error(err);
+            //     }
+            //     await timeout(60 * 1000); // wait 1 minute before sending another sms
+            // }
         },
         timeoutTimer: (ctx, e, { data }) => (callback) => {
             callback({ type: "setTickRemain", value: data.timeout || 5 * 60 });
