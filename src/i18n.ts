@@ -148,7 +148,7 @@ i18n.use(initReactI18next).init({
         ja: {
             translation: {
                 init: "初期化中",
-                enterPasscode: "パスコードを入力\nしてください。",
+                enterPasscode: "パスコード\n「 2357 」\nを入力してください。",
                 confirmPosition: {
                     selectLoc: "現在の位置を選択してください。",
                     noHome: "マップ上にホームがありません。",
